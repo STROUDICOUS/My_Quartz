@@ -3,11 +3,10 @@ import { QuartzComponent, QuartzComponentProps } from "./types"
 import HeaderConstructor from "./Header"
 import BodyConstructor from "./Body"
 import { JSResourceToScriptElement, StaticResources } from "../util/resources"
-import { clone, FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
+import { FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
 import { visit } from "unist-util-visit"
 import { Root, Element, ElementContent } from "hast"
-import { GlobalConfiguration } from "../cfg"
-import { i18n } from "../i18n"
+import { QuartzPluginData } from "../plugins/vfile"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -51,25 +50,32 @@ export function pageResources(
   }
 }
 
+let pageIndex: Map<FullSlug, QuartzPluginData> | undefined = undefined
+function getOrComputeFileIndex(allFiles: QuartzPluginData[]): Map<FullSlug, QuartzPluginData> {
+  if (!pageIndex) {
+    pageIndex = new Map()
+    for (const file of allFiles) {
+      pageIndex.set(file.slug!, file)
+    }
+  }
+
+  return pageIndex
+}
+
 export function renderPage(
-  cfg: GlobalConfiguration,
   slug: FullSlug,
   componentData: QuartzComponentProps,
   components: RenderComponents,
   pageResources: StaticResources,
 ): string {
-  // make a deep copy of the tree so we don't remove the transclusion references
-  // for the file cached in contentMap in build.ts
-  const root = clone(componentData.tree) as Root
-
   // process transcludes in componentData
-  visit(root, "element", (node, _index, _parent) => {
+  visit(componentData.tree as Root, "element", (node, _index, _parent) => {
     if (node.tagName === "blockquote") {
       const classNames = (node.properties?.className ?? []) as string[]
       if (classNames.includes("transclude")) {
         const inner = node.children[0] as Element
         const transcludeTarget = inner.properties["data-slug"] as FullSlug
-        const page = componentData.allFiles.find((f) => f.slug === transcludeTarget)
+        const page = getOrComputeFileIndex(componentData.allFiles).get(transcludeTarget)
         if (!page) {
           return
         }
@@ -94,10 +100,8 @@ export function renderPage(
               {
                 type: "element",
                 tagName: "a",
-                properties: { href: inner.properties?.href, class: ["internal", "transclude-src"] },
-                children: [
-                  { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
-                ],
+                properties: { href: inner.properties?.href, class: ["internal"] },
+                children: [{ type: "text", value: `Link to original` }],
               },
             ]
           }
@@ -131,10 +135,8 @@ export function renderPage(
             {
               type: "element",
               tagName: "a",
-              properties: { href: inner.properties?.href, class: ["internal", "transclude-src"] },
-              children: [
-                { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
-              ],
+              properties: { href: inner.properties?.href, class: ["internal"] },
+              children: [{ type: "text", value: `Link to original` }],
             },
           ]
         } else if (page.htmlAst) {
@@ -145,14 +147,7 @@ export function renderPage(
               tagName: "h1",
               properties: {},
               children: [
-                {
-                  type: "text",
-                  value:
-                    page.frontmatter?.title ??
-                    i18n(cfg.locale).components.transcludes.transcludeOf({
-                      targetSlug: page.slug!,
-                    }),
-                },
+                { type: "text", value: page.frontmatter?.title ?? `Transclude of ${page.slug}` },
               ],
             },
             ...(page.htmlAst.children as ElementContent[]).map((child) =>
@@ -161,19 +156,14 @@ export function renderPage(
             {
               type: "element",
               tagName: "a",
-              properties: { href: inner.properties?.href, class: ["internal", "transclude-src"] },
-              children: [
-                { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
-              ],
+              properties: { href: inner.properties?.href, class: ["internal"] },
+              children: [{ type: "text", value: `Link to original` }],
             },
           ]
         }
       }
     }
   })
-
-  // set componentData.tree to the edited html that has transclusions rendered
-  componentData.tree = root
 
   const {
     head: Head,
@@ -203,9 +193,8 @@ export function renderPage(
     </div>
   )
 
-  const lang = componentData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const doc = (
-    <html lang={lang}>
+    <html>
       <Head {...componentData} />
       <body data-slug={slug}>
         <div id="quartz-root" class="page">
@@ -219,9 +208,8 @@ export function renderPage(
                   ))}
                 </Header>
                 <div class="popover-hint">
-                  {beforeBody.map((BodyComponent) => (
-                    <BodyComponent {...componentData} />
-                  ))}
+                  {slug !== "index" &&
+                    beforeBody.map((BodyComponent) => <BodyComponent {...componentData} />)}
                 </div>
               </div>
               <Content {...componentData} />
