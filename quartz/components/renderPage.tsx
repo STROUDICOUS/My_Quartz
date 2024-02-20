@@ -203,8 +203,9 @@ export function renderPage(
     </div>
   )
 
-  cconst doc = (
-    <html>
+  const lang = componentData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
+  const doc = (
+    <html lang={lang}>
       <Head {...componentData} />
       <body data-slug={slug}>
         <div id="quartz-root" class="page">
@@ -218,8 +219,9 @@ export function renderPage(
                   ))}
                 </Header>
                 <div class="popover-hint">
-                  {slug !== "index" &&
-                    beforeBody.map((BodyComponent) => <BodyComponent {...componentData} />)}
+                  {beforeBody.map((BodyComponent) => (
+                    <BodyComponent {...componentData} />
+                  ))}
                 </div>
               </div>
               <Content {...componentData} />
