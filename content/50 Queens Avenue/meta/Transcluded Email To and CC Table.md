@@ -42,3 +42,4 @@ share: "true"
 </tbody>
 </table></span></p>
 
+![[../../../docs/assets/img/Pasted image 20240226140003.png|Pasted image 20240226140003.png]]
