@@ -1,1 +1,0 @@
-Relevant Details - re-50QA disputes etc
