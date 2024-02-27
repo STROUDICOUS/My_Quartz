@@ -52,14 +52,16 @@ dv.paragraph(`> [!info]- test  *test*\n> - - -\n> test\ntest`);
 ```
 
 
-<p><span><blockquote>
-<p>[!info]———— test  <em>test</em></p>
+
+Works
+<p><span><div data-callout-metadata="" data-callout-fold="" data-callout="info" class="callout node-insert-event drop-shadow"><div class="callout-title"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">test  <em>test</em></div></div><div class="callout-content">
 <hr>
-<p>test
+<p>test<br>
 test</p>
-</blockquote></span></p>
+</div></div></span></p>
 
 
 ---
 > [!info]- Test
 > This has not
+> 
