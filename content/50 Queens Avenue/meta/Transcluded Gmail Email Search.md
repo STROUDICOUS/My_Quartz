@@ -29,9 +29,19 @@ myCodeProperty: "const currentSubject = dv.current().file.frontmatter['Subject']
 <p><a href="https://mail.google.com/mail/u/0/#search/subject%3A(Garden%20Gate)+after%3A2019%2F08%2F10+before%3A2019%2F08%2F12" target="_blank" rel="noopener">Search Gmail for "Garden Gate" between 10-08-2019 and 12-08-2019</a>   <code>Subject: Garden Gate recieved: 2019-08-11</code></p>
 </div></div></span></p>
 
-<p><span><div data-callout-metadata="" data-callout-fold="-" data-callout="info" class="callout is-collapsible is-collapsed node-insert-event drop-shadow"><div class="callout-title"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">Test</div><div class="callout-fold is-collapsed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"></path></svg></div></div><div class="callout-content" style="display: none;">
-<p>This has been generated in dataviewjs</p>
-</div></div></span></p>
+<p><span><div data-callout-metadata="" data-callout-fold="-" data-callout="info" class="callout is-collapsible node-insert-event drop-shadow"><div class="callout-title"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">Test</div></div></div></span></p><p><span><blockquote>
+<p>Winning?</p>
+</blockquote></span></p>
+```
+dv.paragraph(`> [!info]- Test`)
+dv.paragraph(`> Winning?`)
+```
+
+<p><span><div data-callout-metadata="" data-callout-fold="-" data-callout="info" class="callout is-collapsible node-insert-event drop-shadow"><div class="callout-title"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">Test </div></div></div></span></p>
+```
+dv.paragraph(`> [!info]- Test`)
+dv.paragraph(`> Winning?`)
+```
 
 <p><span><div data-callout-metadata="" data-callout-fold="-" data-callout="info" class="callout is-collapsible is-collapsed node-insert-event drop-shadow"><div class="callout-title"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">Test</div><div class="callout-fold is-collapsed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"></path></svg></div></div><div class="callout-content" style="display: none;">
 <p>This has been generated in dataviewjs</p>
