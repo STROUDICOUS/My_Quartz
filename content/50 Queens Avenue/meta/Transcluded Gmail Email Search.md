@@ -37,9 +37,9 @@ dv.paragraph(`> [!info]- Test`)
 dv.paragraph(`> Winning?`)
 ```
 
-<p><span><div data-callout-metadata="" data-callout-fold="-" data-callout="info" class="callout is-collapsible node-insert-event drop-shadow"><div class="callout-title"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">Test </div></div></div></span></p>
+<p><span><div data-callout-metadata="" data-callout-fold="" data-callout="info" class="callout node-insert-event drop-shadow"><div class="callout-title"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">Test </div></div></div></span></p>
 ```
-dv.paragraph(`> [!info]- Test`)
+dv.paragraph(`> [!info] Test`)
 dv.paragraph(`> Winning?`)
 ```
 
