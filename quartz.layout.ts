@@ -47,3 +47,9 @@ export const defaultListPageLayout: PageLayout = {
   ],
   right: [],
 }
+const iconsOptions: IconFolderOptions = {
+  rootIconFolder: "quartz/static/icons",
+  default: {
+    file: "file",
+  },
+}

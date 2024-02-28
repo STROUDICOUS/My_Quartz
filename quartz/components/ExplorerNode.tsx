@@ -8,6 +8,7 @@ import {
   SimpleSlug,
   FilePath,
 } from "../util/path"
+import { IconFolderOptions, NodesIcons, getIconForNodes } from "../plugins/components/FileIcons"
 
 type OrderEntries = "sort" | "filter" | "map"
 
@@ -16,6 +17,7 @@ export interface Options {
   folderDefaultState: "collapsed" | "open"
   folderClickBehavior: "collapse" | "link"
   useSavedState: boolean
+  iconSettings?: IconFolderOptions
   sortFn: (a: FileNode, b: FileNode) => number
   filterFn: (node: FileNode) => boolean
   mapFn: (node: FileNode) => void
@@ -47,13 +49,21 @@ export class FileNode {
   displayName: string
   file: QuartzPluginData | null
   depth: number
+  icon?: string
 
-  constructor(slugSegment: string, displayName?: string, file?: QuartzPluginData, depth?: number) {
+  constructor(
+    slugSegment: string,
+    displayName?: string,
+    file?: QuartzPluginData,
+    depth?: number,
+    icon?: string,
+  ) {
     this.children = []
     this.name = slugSegment
     this.displayName = displayName ?? file?.frontmatter?.title ?? slugSegment
     this.file = file ? clone(file) : null
     this.depth = depth ?? 0
+    this.icon = icon ?? (file?.frontmatter?.icon as string) ?? undefined
   }
 
   private insert(fileData: DataWrapper) {
@@ -68,6 +78,7 @@ export class FileNode {
       if (nextSegment === "") {
         // index case (we are the root and we just found index.md), set our data appropriately
         const title = fileData.file.frontmatter?.title
+        this.icon = (fileData.file.frontmatter?.icon as string) ?? undefined
         if (title && title !== "index") {
           this.displayName = title
         }
@@ -162,6 +173,10 @@ type ExplorerNodeProps = {
   fullPath?: string
 }
 
+function sanitizeText(text: string) {
+  return text.replace(/'/g, "-")
+}
+
 export function ExplorerNode({ node, opts, fullPath, fileData }: ExplorerNodeProps) {
   // Get options
   const folderBehavior = opts.folderClickBehavior
@@ -172,13 +187,20 @@ export function ExplorerNode({ node, opts, fullPath, fileData }: ExplorerNodePro
   if (node.name !== "") {
     folderPath = joinSegments(fullPath ?? "", node.name)
   }
-
+  const { iconAsSVG, hasIcon, iconPath } = getIconForNodes(node, opts.iconSettings)
+  const dataForSanitized = sanitizeText(node.file?.slug ?? node.name)
   return (
     <>
       {node.file ? (
         // Single file node
         <li key={node.file.slug}>
-          <a href={resolveRelative(fileData.slug!, node.file.slug!)} data-for={node.file.slug}>
+          <a
+            href={resolveRelative(fileData.slug!, node.file.slug!)}
+            data-for={dataForSanitized}
+            data-hasicon={hasIcon}
+            data-icon={iconPath}
+          >
+            <NodesIcons iconAsSVG={iconAsSVG} hasIcon={hasIcon} nodeType="file" />
             {node.displayName}
           </a>
         </li>
@@ -187,29 +209,36 @@ export function ExplorerNode({ node, opts, fullPath, fileData }: ExplorerNodePro
           {node.name !== "" && (
             // Node with entire folder
             // Render svg button + folder name, then children
-            <div class="folder-container">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="5 8 14 8"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="folder-icon"
-              >
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+
+            <div class="folder-container" data-haschildren={node.children.length > 0}>
+              {node.children.length > 0 ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="5 8 14 8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="folder-icon"
+                  data-hasicon={hasIcon}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              ) : null}
               {/* render <a> tag if folderBehavior is "link", otherwise render <button> with collapse click event */}
               <div key={node.name} data-folderpath={folderPath}>
                 {folderBehavior === "link" ? (
                   <a
                     href={resolveRelative(fileData.slug!, folderPath as SimpleSlug)}
-                    data-for={node.name}
+                    data-for={dataForSanitized}
+                    data-hasicon={hasIcon}
+                    data-icon={iconPath}
                     class="folder-title"
                   >
+                    <NodesIcons iconAsSVG={iconAsSVG} hasIcon={hasIcon} nodeType="folder" />
                     {node.displayName}
                   </a>
                 ) : (
