@@ -36,6 +36,31 @@ dg-home: true
 </tr>
 </tbody>
 </table></span></p>
+=======
+
+
+<p><span style="overflow-x: auto;"><table>
+<thead>
+<tr>
+<th>To</th>
+<th>CC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a data-href="person1" href="person1" class="internal-link" target="_blank" rel="noopener">person1</a></td>
+<td><a data-href="person3" href="person3" class="internal-link" target="_blank" rel="noopener">person3</a></td>
+</tr>
+<tr>
+<td><a data-href="Adrienne Jeffrey" href="Adrienne Jeffrey" class="internal-link" target="_blank" rel="noopener">Adrienne Jeffrey</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a data-href="Bob and Mary Smart" href="Bob and Mary Smart" class="internal-link" target="_blank" rel="noopener">Bob and Mary Smart</a></td>
+<td></td>
+</tr>
+</tbody>
+</table></span></p>
 
 
 | To                                   | Cc                          |    
