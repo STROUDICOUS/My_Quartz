@@ -16,4 +16,8 @@ h6 {
 .tags {
   display: none;
 }
+//Hidden Checkboxes because they serve dataview, not the site.
+input[type=checkbox] {
+    display: none;
+}
 
