@@ -9,7 +9,7 @@ share: "true"
 >  This is a comment
 
 
-> [!hidden-quote]
+> [!hiddenQuote]
 > This quote should be hidden
 
 
