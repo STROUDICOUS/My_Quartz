@@ -25,7 +25,7 @@
     --callout-icon: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-more"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>');
   }  
     &[data-callout="yellowwarning"] { 
-    --color: 255, 252, 163;
+    --callout-color: 255, 252, 163;
     --border: rgb(var(--callout-color));
     --bg: rgba(var(--callout-color), 0.1);
     --callout-icon: url('data:image/svg+xml; utf8, <svg aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"exclamation\" class=\"svg-inline--fa fa-exclamation fa-w-6\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 192 512\"><path fill=\"currentColor\" d=\"M176 432c0 44.112-35.888 80-80 80s-80-35.888-80-80 35.888-80 80-80 80 35.888 80 80zM25.26 25.199l13.6 272C39.499 309.972 50.041 320 62.83 320h66.34c12.789 0 23.331-10.028 23.97-22.801l13.6-272C167.425 11.49 156.496 0 142.77 0H49.23C35.504 0 24.575 11.49 25.26 25.199z\"></path></svg>'); 
