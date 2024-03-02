@@ -20,7 +20,10 @@ h6 {
 input[type=checkbox] {
     display: none;
 }
-
+//hidden callouts to hide quotes in email notes
+blockquote.callout.empty {
+    display: none;
+}
 
 hr {
     margin: 0.5rem auto;
