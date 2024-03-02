@@ -9,7 +9,7 @@ share: "true"
 >  This is a comment
 
 
-> [!empty]
+> [!empty∑]
 > This quote should be hidden
 
 
@@ -17,3 +17,4 @@ share: "true"
 >[!objectif]
 >Test
 
+ 
